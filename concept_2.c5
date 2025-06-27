@@ -206,7 +206,7 @@ fn main() :void {
 
     //error handling
     f, err := add_with_errors(3, 5);
-    if(err != nil) {
+    if err != nil {
         fmt.println(err);
     }
 

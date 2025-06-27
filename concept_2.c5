@@ -40,7 +40,7 @@ fn add_pointer(a: *int, b: *int) :int {
 
 fn add_with_errors(a: int, b: int) : (int, Error) {
     //if else
-    if(a < 0 && b < 0) {
+    if a < 0 && b < 0 {
         return 0, Error.add_by_zero;
     } else {
         return a + b, nil;
@@ -85,33 +85,29 @@ fn main() :void {
     fmt.printf("%d\n" result);
 
     //loops
-    for(i := 0; i < 10; i++) {
+    for i := 0; i < 10; i++ {
         fmt.println(i);
     }
 
-    for(i in 1..<10) {
+    for i in 1..<10 {
         fmt.println(i);
     }
 
-    for(i in 1..=10) {
+    for i in 1..=10 {
         fmt.println(i);
     }
 
     j := 0;
-    for(; j < 10 ; ) {
+    for ; j < 10 ;  {
         j += 1;
     }
 
     k := 0;
-    for(k < 10) {
+    for k < 10 {
         k += 2;
     }
 
     //infinite loop
-    for(;;) {
-
-    }
-
     for {
 
     }
@@ -133,22 +129,22 @@ fn main() :void {
 
     append(&dyn_arr, 5);
     append(&dyn_arr, 6);
-    for(i in dyn_arr) {
+    for i in dyn_arr {
         println(i);
     }
 
     //slice
     my_slice := &dyn_arr[0:1];
-    my_slice1 := &dyn_arr[0:]; //from index 0 but all
+    my_slice1 : []int = &dyn_arr[0:]; //from index 0 but all
     my_slice2 := &dyn_arr[:]; //all
-    for(s in my_slice) {
+    for s in my_slice {
         fmt.println(s);
     }
 
     //hashmap
     my_map := make(map[string]int);
     defer delete(my_map);
-    for(k, v in my_map) {
+    for k, v in my_map {
         fmt.printf("k: %s, v: %d\n", k, v);
     }
 
@@ -164,7 +160,7 @@ fn main() :void {
 
     //regular
     x := 0;
-    switch (x) {
+    switch x {
         case 5: x += 1;
         case 2: x += 2;
         _: x += 3;
@@ -172,14 +168,14 @@ fn main() :void {
 
     //with range
     y := 0;
-    switch (y) {
+    switch y {
         case 0..<5: fmt.println("small");
         case 5..=10: fmt.println("medium");
         _: fmt.println("high");
     }
 
     //with enum
-    switch(myenum) {
+    switch myenum {
         case .rock: fmt.println("rock");
         case .paper: fmt.println("paper");
         case .scissor: fmt.println("scissor");
@@ -187,7 +183,7 @@ fn main() :void {
 
     //with tagged union
     v: Value = 100;
-    switch(v) {
+    switch v {
         case int: fmt.println("int");
         case bool: fmt.println("bool");
     }

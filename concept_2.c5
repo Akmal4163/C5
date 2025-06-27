@@ -119,10 +119,7 @@ fn main() :void {
         println(i);
     }
 
-    //multi-pointers
-    multi: [*]i32 = &my_array;
-    offsets(multi, 1); //pointer arithmatic via function
-
+    
     //dynamic array
     dyn_arr := make([dynamic]int);
     defer delete(dyn_arr);
@@ -140,6 +137,11 @@ fn main() :void {
     for s in my_slice {
         fmt.println(s);
     }
+
+    //multi-pointers
+    multi: [*]i32 = &my_array;
+    offsets(multi, 1); //pointer arithmatic via function
+
 
     //hashmap
     my_map := make(map[string]int);
@@ -170,8 +172,22 @@ fn main() :void {
     y := 0;
     switch y {
         case 0..<5: fmt.println("small");
-        case 5..=10: fmt.println("medium");
-        _: fmt.println("high");
+        case 5..<10: fmt.println("medium");
+        case _: fmt.println("high");
+    }
+
+    switch y {
+        case 0..=5 | 0..=10: fmt.println("one");
+        case 10..=15 | 10..=20: fmt.println("two");
+        case _: fmt.println("three");
+    }
+
+    //with pattern matching
+    z := 0;
+    switch z {
+        case 1 | 3 | 5 : fmt.println("even");
+        case 2 | 4 | 6 : fmt.println("odd");
+        case _: fmt.println("not know");
     }
 
     //with enum

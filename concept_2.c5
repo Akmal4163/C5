@@ -1,0 +1,202 @@
+package main
+
+import "core:fmt"
+
+const X = 12;
+
+// ===struct===
+struct Vector2 {
+    x: int,
+    y: int
+};
+
+struct Entity {
+    using position: Vector2,
+    name: string,
+};
+
+// === enum & union ===
+enum Bar {
+    rock,
+    paper,
+    scissors,
+};
+
+union Value {
+    int,
+    bool,
+};
+// === function pointers ===
+typedef Callback = fn(int, int) :int;
+
+// === functions ===
+fn add(a: int, b: int): int {
+    return a + b;
+}
+
+fn add_pointer(a: *int, b: *int) :int {
+    return a.* + b.*;
+}
+
+fn add_with_errors(a: int, b: int) : (int, Error) {
+    //if else
+    if(a < 0 && b < 0) {
+        return 0, Error.add_by_zero;
+    } else {
+        return a + b, nil;
+    }
+}
+
+fn apply(cb: Callback, a: int, b: int) :int {
+    return cb(a, b);
+}
+
+
+// === entry point ===
+fn main() :void {
+    //variables
+    a := 12;
+    b := 20;
+    e: Entity; //implicit zero initialization
+    e.x = 20;
+
+    //arithmatic
+    a + b;
+    a * b;
+    a / b;
+    
+    //logical and bitwise
+    a || b;
+    a && b;
+    a != b;
+    a == b;
+    a << b;
+    a >> b;
+
+    //pointers
+    p1 :*int = &a;
+    p2 :*int = &b;
+    sum_ptr = add_pointer(p1, p2);
+    p3 = p1.*; //dereference
+
+    //function pointer usage
+    cb: Callback = add;
+    result := apply(cb, 1, 2);
+    fmt.printf("%d\n" result);
+
+    //loops
+    for(i := 0; i < 10; i++) {
+        fmt.println(i);
+    }
+
+    for(i in 1..<10) {
+        fmt.println(i);
+    }
+
+    for(i in 1..=10) {
+        fmt.println(i);
+    }
+
+    j := 0;
+    for(; j < 10 ; ) {
+        j += 1;
+    }
+
+    k := 0;
+    for(k < 10) {
+        k += 2;
+    }
+
+    //infinite loop
+    for(;;) {
+
+    }
+
+    for {
+
+    }
+
+    // ===array===
+    my_array := [5]int{1,2,3,4,5};
+    assert(len(my_array), 5);
+    for(i in my_array) {
+        println(i);
+    }
+
+    //multi-pointers
+    multi: [*]i32 = &my_array;
+    offsets(multi, 1); //pointer arithmatic via function
+
+    //dynamic array
+    dyn_arr := make([dynamic]int);
+    defer delete(dyn_arr);
+
+    append(&dyn_arr, 5);
+    append(&dyn_arr, 6);
+    for(i in dyn_arr) {
+        println(i);
+    }
+
+    //slice
+    my_slice := &dyn_arr[0:1];
+    my_slice1 := &dyn_arr[0:]; //from index 0 but all
+    my_slice2 := &dyn_arr[:]; //all
+    for(s in my_slice) {
+        fmt.println(s);
+    }
+
+    //hashmap
+    my_map := make(map[string]int);
+    defer delete(my_map);
+    for(k, v in my_map) {
+        fmt.printf("k: %s, v: %d\n", k, v);
+    }
+
+    //struct and enum
+    pos := Vector2{ x: 12, y: 22 };
+    myenum := Bar.paper;
+
+    //enumerated arrays
+    my_enum_arr := [Bar]int{ .rock = 1, .paper = 23, .scissors = 22 };
+    assert(my_enum_arr[.rock], 1);
+
+    // === switch case ===
+
+    //regular
+    x := 0;
+    switch (x) {
+        case 5: x += 1;
+        case 2: x += 2;
+        _: x += 3;
+    }
+
+    //with range
+    y := 0;
+    switch (y) {
+        case 0..<5: fmt.println("small");
+        case 5..=10: fmt.println("medium");
+        _: fmt.println("high");
+    }
+
+    //with enum
+    switch(myenum) {
+        case .rock: fmt.println("rock");
+        case .paper: fmt.println("paper");
+        case .scissor: fmt.println("scissor");
+    }
+
+    //with tagged union
+    v: Value = 100;
+    switch(v) {
+        case int: fmt.println("int");
+        case bool: fmt.println("bool");
+    }
+
+    //error handling
+    f, err := add_with_errors(3, 5);
+    if(err != nil) {
+        fmt.println(err);
+    }
+
+    fmt.println("hello world");
+}

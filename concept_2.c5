@@ -165,7 +165,7 @@ fn main() :void {
     switch x {
         case 5: x += 1;
         case 2: x += 2;
-        _: x += 3;
+        case _: x += 3;
     }
 
     //with range
